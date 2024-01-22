@@ -13,27 +13,34 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const pg_1 = require("pg");
-const client = new pg_1.Client();
+const db_connect_1 = require("./db_connect");
 function client_connect() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            yield client.connect();
-            const qry = yield client.query('SELECT $1::text as message', ['Hello world!']);
+            yield db_connect_1.pool.connect();
+            const qry = yield db_connect_1.pool.query('SELECT $1::text as message', ['Hello world!']);
             console.log(qry.rows[0].message);
-            yield client.end();
         }
-        catch (_a) {
-            console.log("client not connected");
+        catch (err) {
+            if (err instanceof Error) {
+                console.log(err.message);
+            }
         }
     });
 }
-client_connect();
 const app = (0, express_1.default)();
 const port = 3000;
 app.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send("466");
+    yield db_connect_1.pool.connect();
+    const qry = yield db_connect_1.pool.query('SELECT * FROM vendas');
+    res.send(qry);
+}));
+app.post('/vendas', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    yield db_connect_1.pool.connect();
+    const qry = yield db_connect_1.pool.query('SELECT $1::text as message', ['Hello world!']);
+    res.send(qry);
 }));
 app.listen(port, () => {
     console.log('Server started at http://localhost:' + port);
 });
+client_connect();

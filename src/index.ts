@@ -1,17 +1,17 @@
 import express, { Express, Request, Response, Application } from 'express';
-import { Client } from 'pg'
-
-const client = new Client()
+import { pool } from './db_connect'
+import Joi from "joi"
 
 async function client_connect(){
     try {
-            await client.connect()
-            const qry = await client.query('SELECT $1::text as message', ['Hello world!'])
+            await pool.connect()
+            const qry = await pool.query('SELECT $1::text as message', ['Hello world!'])
             console.log(qry.rows[0].message)
-            await client.end()
 }
-    catch{
-            console.log("client not connected")
+    catch (err: unknown){
+            if (err instanceof Error){
+                console.log(err.message)
+            }
             
 }}
 
@@ -19,8 +19,17 @@ const app: Application = express()
 const port = 3000
 
 app.get('/', async (req: Request, res: Response) => {
-    res.send("466")
+    await pool.connect()
+    const qry = await pool.query('SELECT * FROM vendas')
+    res.send(qry)
 })
+
+app.post('/vendas', async (req: Request, res: Response) => {
+    await pool.connect()
+    const qry = await pool.query('SELECT $1::text as message', ['Hello world!'])
+    res.send(qry)
+})
+
 
 app.listen(port, () => {
   console.log('Server started at http://localhost:'+port)
