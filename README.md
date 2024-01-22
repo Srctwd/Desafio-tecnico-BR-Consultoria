@@ -1,2 +1,2 @@
-# Technical-challange-BR-Consultoria
-REST API using Node.js and Postgres.
+# Technical challange - BR Consultoria
+REST API using TypeScript Node.js and Postgres.

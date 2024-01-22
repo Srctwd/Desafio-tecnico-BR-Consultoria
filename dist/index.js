@@ -14,6 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const db_connect_1 = require("./db_connect");
+const joi_schema_1 = require("./joi_schema");
+console.log(joi_schema_1.schema.validate({ valor: 12, numero_cartao: '121994123454', id_adquirente: '482' }));
 function client_connect() {
     return __awaiter(this, void 0, void 0, function* () {
         try {

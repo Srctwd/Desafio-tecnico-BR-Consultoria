@@ -1,6 +1,8 @@
 import express, { Express, Request, Response, Application } from 'express';
 import { pool } from './db_connect'
-import Joi from "joi"
+import { schema } from "./joi_schema"
+
+console.log(schema.validate({ valor: 12, numero_cartao: '121994123454', id_adquirente: '482'}))
 
 async function client_connect(){
     try {
