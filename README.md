@@ -1,2 +1,2 @@
-# desafio-tecnico-BR-Consultoria
+# Technical-challange-BR-Consultoria
 REST API using Node.js and Postgres.
