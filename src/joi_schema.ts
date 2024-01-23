@@ -2,7 +2,7 @@ import Joi from "joi";
 
 export const schema = Joi.object({
     valor: Joi.string()
-        .regex(/[+-]?([0-9]*[.])?[0-9]+/)
+        .regex(/[+-]?([0-9]*[.])?[0-9]+$/)
         .required(),
 
     numero_cartao: Joi.string()
