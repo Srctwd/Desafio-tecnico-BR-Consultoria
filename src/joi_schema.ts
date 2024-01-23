@@ -1,4 +1,6 @@
-import Joi from "joi";
+import JoiDate from "@joi/date"
+import JoiImport from "joi"
+const Joi = JoiImport.extend(JoiDate) as typeof JoiImport
 
 export const schema = Joi.object({
     valor: Joi.string()
@@ -27,6 +29,8 @@ export const schema = Joi.object({
         .max(10)
         .required(),
 
-    data_venda: Joi.date().required()
+    data_venda: Joi.date()
+                .format('DD/MM/YYYY')
+                .required()
         
 })
