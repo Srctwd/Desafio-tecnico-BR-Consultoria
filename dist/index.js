@@ -18,6 +18,11 @@ const joi_schema_1 = require("./joi_schema");
 const app = (0, express_1.default)();
 const port = 3000;
 app.use(express_1.default.json());
+app.use((err, req, res, next) => {
+    if (err.status == 400)
+        return res.send('Invalid JSON\n');
+    return next(err);
+});
 app.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield db_connect_1.pool.connect();
     const qry = yield db_connect_1.pool.query('SELECT * FROM vendas');

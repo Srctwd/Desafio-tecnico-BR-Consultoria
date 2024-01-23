@@ -7,7 +7,7 @@ exports.schema = void 0;
 const joi_1 = __importDefault(require("joi"));
 exports.schema = joi_1.default.object({
     valor: joi_1.default.string()
-        .regex(/[+-]?([0-9]*[.])?[0-9]+/)
+        .regex(/[+-]?([0-9]*[.])?[0-9]+$/)
         .required(),
     numero_cartao: joi_1.default.string()
         .regex(/[0-9]+/)
