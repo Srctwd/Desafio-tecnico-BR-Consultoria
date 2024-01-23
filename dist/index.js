@@ -29,14 +29,15 @@ app.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.send(qry);
 }));
 app.post('/vendas', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const val_obj = joi_schema_1.schema.validate(req.body).error;
-    if (!val_obj) {
-        var value = req.body.valor.replace(',', '.');
-        const qry = yield db_connect_1.pool.query('INSERT INTO vendas (valor, numero_cartao, id_adquirente, numero_parcelas, id_bandeira_cartao, data_venda) VALUES (' + value + "," + req.body.numero_cartao + "," + req.body.id_adquirente + "," + req.body.numero_parcelas + "," + req.body.id_bandeira_cartao + "," + "'" + req.body.data_venda + "'" + ")");
+    var obj = joi_schema_1.schema.validate(req.body);
+    if (!obj.error) {
+        obj.value.valor = obj.value.valor.replace(',', '.');
+        obj.value.data_venda = obj.value.data_venda.toUTCString();
+        const qry = yield db_connect_1.pool.query('INSERT INTO vendas (valor, numero_cartao, id_adquirente, numero_parcelas, id_bandeira_cartao, data_venda) VALUES (' + obj.value.valor + "," + obj.value.numero_cartao + "," + obj.value.id_adquirente + "," + obj.value.numero_parcelas + "," + obj.value.id_bandeira_cartao + "," + "'" + obj.value.data_venda + "'" + ")");
         res.send(qry);
     }
     else {
-        res.send(val_obj);
+        res.send(obj.error);
     }
 }));
 app.listen(port, () => {
