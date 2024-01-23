@@ -1,7 +1,8 @@
 import Joi from "joi";
 
 export const schema = Joi.object({
-    valor: Joi.number()
+    valor: Joi.string()
+        .regex(/[+-]?([0-9]*[.])?[0-9]+/)
         .required(),
 
     numero_cartao: Joi.string()
@@ -18,9 +19,7 @@ export const schema = Joi.object({
 
     numero_parcelas: Joi.string()
         .regex(/[0-9]+/)
-        .min(10)
-        .max(60)
-        .required(),
+        .max(60),
     
     id_bandeira_cartao: Joi.string()
         .regex(/[0-9]+/)
@@ -28,7 +27,6 @@ export const schema = Joi.object({
         .max(10)
         .required(),
 
-    data_venda: Joi.string()
-        .pattern(new RegExp('(^0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\d{4}$)')),
+    data_venda: Joi.date().required()
         
 })

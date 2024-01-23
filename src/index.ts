@@ -2,23 +2,9 @@ import express, { Express, Request, Response, Application } from 'express';
 import { pool } from './db_connect'
 import { schema } from "./joi_schema"
 
-console.log(schema.validate({ valor: 12, numero_cartao: '121994123454', id_adquirente: '482'}))
-
-async function client_connect(){
-    try {
-            await pool.connect()
-            const qry = await pool.query('SELECT $1::text as message', ['Hello world!'])
-            console.log(qry.rows[0].message)
-}
-    catch (err: unknown){
-            if (err instanceof Error){
-                console.log(err.message)
-            }
-            
-}}
-
 const app: Application = express()
 const port = 3000
+app.use(express.json())
 
 app.get('/', async (req: Request, res: Response) => {
     await pool.connect()
@@ -27,14 +13,17 @@ app.get('/', async (req: Request, res: Response) => {
 })
 
 app.post('/vendas', async (req: Request, res: Response) => {
-    await pool.connect()
-    const qry = await pool.query('SELECT $1::text as message', ['Hello world!'])
-    res.send(qry)
+const val_obj = schema.validate(req.body).error
+    if(!val_obj){
+        var value = req.body.valor.replace(',','.')
+        const qry = await pool.query('INSERT INTO vendas (valor, numero_cartao, id_adquirente, numero_parcelas, id_bandeira_cartao, data_venda) VALUES ('+value+","+req.body.numero_cartao+","+req.body.id_adquirente+","+req.body.numero_parcelas+","+req.body.id_bandeira_cartao+","+"'"+req.body.data_venda+"'"+")")
+        res.send(qry)
+    }
+    else{
+        res.send(val_obj)
+    }
 })
-
 
 app.listen(port, () => {
   console.log('Server started at http://localhost:'+port)
 })
-
-client_connect()
