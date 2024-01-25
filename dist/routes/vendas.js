@@ -14,11 +14,20 @@ const express_1 = require("express");
 const db_connect_1 = require("../db_connect");
 const joi_schema_1 = require("../joi_schema");
 exports.router = (0, express_1.Router)();
-exports.router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.router.get('/:page', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log(Number(req.params.page));
         yield db_connect_1.pool.connect();
-        const qry = yield db_connect_1.pool.query('SELECT * FROM vendas_view');
-        res.send(qry);
+        var start = Number(req.params.page) * 10;
+        var limit = start + 9;
+        if (Number(req.params.page) == 1) {
+            start = 1;
+        }
+        if (!isNaN(start)) {
+            const qry = yield db_connect_1.pool.query('SELECT * FROM ( SELECT *, ROW_NUMBER() OVER (ORDER BY id_venda) FROM vendas_view ) as v WHERE ROW_NUMBER BETWEEN ' + start + ' AND ' + limit);
+            res.send(qry);
+        }
+        res.send("Invalid\n");
     }
     catch (err) {
         if (err instanceof Error) {

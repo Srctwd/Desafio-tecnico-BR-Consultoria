@@ -3,11 +3,18 @@ import { pool } from '../db_connect'
 import { schema } from "../joi_schema"
 export const router = Router()
 
-router.get('/', async (req: Request, res: Response) => {
+router.get('/:page', async (req: Request, res: Response) => {
     try{
+           console.log(Number(req.params.page))
            await pool.connect()
-           const qry = await pool.query('SELECT * FROM vendas_view')
+           var start = Number(req.params.page)*10
+           var limit = start+9
+           if (Number(req.params.page) == 1){start=1}
+           if (!isNaN(start)){
+           const qry = await pool.query('SELECT * FROM ( SELECT *, ROW_NUMBER() OVER (ORDER BY id_venda) FROM vendas_view ) as v WHERE ROW_NUMBER BETWEEN '+start+' AND '+limit)
            res.send(qry)
+           }
+           res.send("Invalid\n")
     }
     catch (err: unknown){
             if (err instanceof Error){
