@@ -1,7 +1,8 @@
 ## Technical challange - BR Consultoria
 #### REST API using TypeScript Node.js and Postgres.
-###### &nbsp;&nbsp;
-Existem dois endpoints principais, um GET e outro POST. O endpoint GET, /vendas/:p recebe parâmetros do usuário, usados para filtrar a tabela, e então envia ao cliente o resultado da query. Este possui os seguintes parâmetros: 
+Essa API pode ser usada para o cadastro e visualização de vendas. Os endpoints são à prova de injeção de SQL e fazem a validação dos dados enviados antes do processamento, tratando erros comuns de envio como JSONs inválidos.
+
+Possui dois endpoints principais, um GET e outro POST. O endpoint GET, /vendas/:p recebe parâmetros do usuário, usados para filtrar a tabela, e então envia ao cliente o resultado da query. Este possui os seguintes parâmetros: 
 + bandeira
 + id_adquirente
 + data_venda.
