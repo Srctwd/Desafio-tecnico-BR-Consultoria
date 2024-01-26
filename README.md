@@ -48,4 +48,4 @@ No projeto, o módulo db_connect é responsável por guardar as variáveis neces
 
 #### Melhorias futuras
 ###### Uso do dotenv para as variáveis de conexão.
-###### Front usando o React.js e cors para receber os dados da API.
+###### Front usando o React.js e cors para melhor visualização dos dados da API.
