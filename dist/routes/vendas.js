@@ -16,18 +16,48 @@ const joi_schema_1 = require("../joi_schema");
 exports.router = (0, express_1.Router)();
 exports.router.get('/:page', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log(Number(req.params.page));
         yield db_connect_1.pool.connect();
+        //This two variables paginate on the DB level
         var start = Number(req.params.page) * 10;
         var limit = start + 9;
-        if (Number(req.params.page) == 1) {
+        if (start == 10) {
             start = 1;
         }
+        var amend = '';
+        var param_number = 0;
+        //Amends the query according to the parameters passed on url
         if (!isNaN(start)) {
-            const qry = yield db_connect_1.pool.query('SELECT * FROM ( SELECT *, ROW_NUMBER() OVER (ORDER BY id_venda) FROM vendas_view ) as v WHERE ROW_NUMBER BETWEEN ' + start + ' AND ' + limit);
-            res.send(qry);
+            if (Object.keys(req.query).length != 0 && 'bandeira' in req.query || 'id_adquirente' in req.query || 'data_venda' in req.query) {
+                for (var query in req.query) {
+                    if (!(query == 'bandeira' || query == 'id_adquirente' || query == 'data_venda')) {
+                        res.send("Parametros inválidos");
+                    }
+                    param_number = param_number + 1;
+                    amend = amend + query + ' = ' + '$' + param_number + ' AND ';
+                }
+                amend = 'WHERE ' + amend.slice(0, -5);
+            }
+            var qry = 'SELECT * FROM ( SELECT *, ROW_NUMBER() OVER (ORDER BY id_venda) FROM vendas_view ' + amend + ') as v WHERE ROW_NUMBER BETWEEN ' + start + ' AND ' + limit;
+            if (param_number == 0) {
+                var response0 = yield db_connect_1.pool.query(qry);
+                res.send(response0);
+            }
+            if (param_number == 1) {
+                var response = yield db_connect_1.pool.query(qry, [req.query[Object.keys(req.query)[0]]]);
+                res.send(response);
+            }
+            if (param_number == 2) {
+                var response2 = yield db_connect_1.pool.query(qry, [req.query[Object.keys(req.query)[0]], req.query[Object.keys(req.query)[1]]]);
+                res.send(response2);
+            }
+            if (param_number == 3) {
+                var response3 = yield db_connect_1.pool.query(qry, [req.query[Object.keys(req.query)[0]], req.query[Object.keys(req.query)[1]], req.query[Object.keys(req.query)[2]]]);
+                res.send(response3);
+            }
         }
-        res.send("Invalid\n");
+        else {
+            res.send("Invalid\n");
+        }
     }
     catch (err) {
         if (err instanceof Error) {
