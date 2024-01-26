@@ -50,3 +50,10 @@ No projeto, o módulo db_connect é responsável por guardar as variáveis neces
 #### Melhorias futuras
 ###### Uso do dotenv para as variáveis de conexão.
 ###### Front usando o React.js e cors para melhor visualização dos dados da API.
+
+
+#### Informações técnicas
+###### Caso você queira desenvolver em cima desse projeto, use npm run build para executar o tsc. A pasta "src" possui os módulos em TypeScript que são compilados em Js para a execução.
+###### As rotas estão descritas na pasta "routes" dentro da pasta fonte("src") do projeto.
+###### O schema Joi usado para a validação também possúi o seu próprio módulo que é exportado e consumido pela rota de vendas.
+###### O index.ts é aonde o servidor do express é iniciado, é lá que você fará as mudanças de porta, rotas e middleware.
