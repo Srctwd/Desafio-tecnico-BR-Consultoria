@@ -5,7 +5,7 @@ interface Error {
 }
 
 const app: Application = express()
-const port = 3000
+const port = 3001
 app.use(express.json())
 
 // routes
