@@ -1,5 +1,5 @@
 CREATE USER client_user WITH PASSWORD '123';
-
+CREATE DATABASE db;
 INSERT INTO bandeira_cartao Values
                             ('50', 'Aura'),
                             ('4', 'Visa'),
@@ -48,4 +48,5 @@ INSERT INTO bandeira_cartao Values
                             ('60', 'Hipercard');
 
 GRANT ALL PRIVILEGES ON vendas_view TO client_user;
+GRANT ALL PRIVILEGES ON vendas TO client_user;
 
