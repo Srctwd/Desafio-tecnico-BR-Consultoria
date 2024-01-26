@@ -3,11 +3,11 @@
 
 
 
-#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Existem dois endpoints principais, um GET e outro POST. O endpoint GET, /vendas/:p recebe parâmetros do usuário, usados para filtrar a tabela, e então envia ao cliente o resultado da query. Ele possui os seguintes parâmetros: 
+#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Existem dois endpoints principais, um GET e outro POST. O endpoint GET, /vendas/:p recebe parâmetros do usuário, usados para filtrar a tabela, e então envia ao cliente o resultado da query. Ele possui os seguintes parâmetros: 
 + bandeira
 + id_adquirente
 + data_venda. 
-#### Esses são utilizados colocando o sinal de interrogação na URL após a página, por exemplo:
+####  Esses são utilizados colocando o sinal de interrogação na URL após a página, por exemplo:
 ```
 /vendas/1?bandeira=Mastercard
 
@@ -15,7 +15,7 @@ Também podem ser aninhados utilizando o E comercial '&'
 
 /vendas/1?bandeira=Mastercard&id_adquirente=2
 ```
-#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;O endpoint POST /vendas/ cadastra vendas em um banco de dados PostgreSQL. Para fazer isso, deve receber uma requisição POST contendo no corpo da requisição um arquivo JSON com as informações da venda que irá ser cadastrada. Os objetos necessários são o valor da compra, número do cartão, id do adquirente, número de parcelas, id da bandeira do cartão e data da venda. O JSON válido se parece com isto:
+#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; O endpoint POST /vendas/ cadastra vendas em um banco de dados PostgreSQL. Para fazer isso, deve receber uma requisição POST contendo no corpo da requisição um arquivo JSON com as informações da venda que irá ser cadastrada. Os objetos necessários são o valor da compra, número do cartão, id do adquirente, número de parcelas, id da bandeira do cartão e data da venda. O JSON válido se parece com isto:
 ```
 {
     "valor" : "19,90",
@@ -26,3 +26,16 @@ Também podem ser aninhados utilizando o E comercial '&'
     "data_venda": "23/01/2023"
 }
 ```
+#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Para armazenar as vendas, o postgreSQL é utilizado. para instalar esse banco em distribuições baseadas no Debian basta executar:
+```
+sudo apt install postgresql
+```
+####  Para acessar, basta executar no terminal:
+```
+sudo -u postgres psql
+```
+####  Após a criação do banco de dados, não se esqueça de conectar antes de executar os scripts:
+```
+\c db
+```
+#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Na pasta db_scripts, você encontrará os comandos para a criação das tabelas usadas no projeto. Também como o procedure para popular a tabela de referência para a bandeira do cartão.
