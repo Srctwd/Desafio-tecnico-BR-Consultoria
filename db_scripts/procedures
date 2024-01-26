@@ -50,3 +50,4 @@ INSERT INTO bandeira_cartao Values
 GRANT ALL PRIVILEGES ON vendas_view TO client_user;
 GRANT ALL PRIVILEGES ON vendas TO client_user;
 
+SELECT id_venda, numero_cartao, id_bandeira_cartao, 'inválida' AS situação FROM vendas WHERE CAST( numero_cartao as char(6) ) LIKE '%'||CAST ( id_bandeira_cartao as char(6))||'%';
