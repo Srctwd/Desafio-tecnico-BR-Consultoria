@@ -1,4 +1,4 @@
-CREATE USER client_user WITH PASSWORD '123';
+CREATE USER 'client_user' WITH PASSWORD '123';
 CREATE DATABASE db;
 INSERT INTO bandeira_cartao Values
                             ('50', 'Aura'),
