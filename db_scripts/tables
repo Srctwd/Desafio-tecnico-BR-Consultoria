@@ -1,0 +1,16 @@
+CREATE TABLE IF NOT EXISTS vendas (
+   id_venda bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+   valor numeric,
+   numero_cartao character(21),
+   id_adquirente int,
+   numero_parcelas int,
+   id_bandeira_cartao int,
+   data_venda date
+);
+
+CREATE TABLE IF NOT EXISTS bandeira_cartao (
+   numero bigint,
+   bandeira char(21)
+);
+
+create view vendas_view as SELECT id_venda, valor, numero_cartao, id_adquirente, numero_parcelas, data_venda, bandeira FROM vendas JOIN bandeira_cartao ON bandeira_cartao.numero = vendas.id_bandeira_cartao order by id_venda;
